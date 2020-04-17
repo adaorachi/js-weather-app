@@ -1,1 +1,127 @@
-/* No CSS *//*# sourceMappingURL=style.css.map */
+.wrapper .main-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  width: 100%;
+}
+
+.wrapper .main-container .width-5 {
+  -webkit-box-flex: 1;
+      -ms-flex: 1 1 5%;
+          flex: 1 1 5%;
+  width: 5%;
+}
+
+.wrapper .main-container .width-75 {
+  -webkit-box-flex: 1;
+      -ms-flex: 1 1 75%;
+          flex: 1 1 75%;
+  width: 75%;
+}
+
+.wrapper .main-container .width-20 {
+  -webkit-box-flex: 1;
+      -ms-flex: 1 1 20%;
+          flex: 1 1 20%;
+  width: 20%;
+}
+
+.wrapper .main-container .side-bar {
+  background: -webkit-gradient(linear, right top, left top, from(#3a3f4b), color-stop(#2e333f), to(#111317));
+  background: linear-gradient(to left, #3a3f4b, #2e333f, #111317);
+  height: 100vh;
+}
+
+.wrapper .main-container .side-bar .nav-bar,
+.wrapper .main-container .side-bar .list-group {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  height: 100%;
+}
+
+.wrapper .main-container .side-bar .nav-brand {
+  -ms-flex-item-align: center;
+      -ms-grid-row-align: center;
+      align-self: center;
+}
+
+.wrapper .main-container .side-bar .list-group-item {
+  background: transparent;
+  border: none;
+  border-bottom: 1px inset #313131;
+  border-radius: 0;
+  color: #fff;
+  cursor: pointer;
+}
+
+.wrapper .main-container .side-bar .list-group-item:hover {
+  color: #aaa;
+}
+
+.wrapper .main-container .side-bar .list-group-item.active {
+  -webkit-box-shadow: 0 3px 2px rgba(0, 0, 0, 0.45), -3px 0 3px rgba(0, 0, 0, 0.75);
+          box-shadow: 0 3px 2px rgba(0, 0, 0, 0.45), -3px 0 3px rgba(0, 0, 0, 0.75);
+  position: relative;
+}
+
+.wrapper .main-container .side-bar .list-group-item.active:after {
+  content: '';
+  position: absolute;
+  height: 100%;
+  width: 6px;
+  top: 0;
+  right: -5px;
+  background: -webkit-gradient(linear, left bottom, left top, from(#7d70eb), to(#2ea2fd));
+  background: linear-gradient(to top, #7d70eb, #2ea2fd);
+  -webkit-box-shadow: 0px 3px 2px rgba(0, 0, 0, 0.45), 1px 0px 3px rgba(0, 0, 0, 0.75);
+          box-shadow: 0px 3px 2px rgba(0, 0, 0, 0.45), 1px 0px 3px rgba(0, 0, 0, 0.75);
+  border-bottom: 1px solid #7d70eb;
+}
+
+.wrapper .main-container .side-bar .list-group-item .icon {
+  font-size: 1.6rem;
+}
+
+.wrapper .main-container .side-bar .nav-brand-icon {
+  display: block;
+  position: relative;
+  margin-top: 1rem;
+}
+
+.wrapper .main-container .side-bar .nav-brand-icon .icon {
+  font-size: 2.8rem;
+  background: -webkit-gradient(linear, left top, left bottom, from(#7d70eb), to(#2ea2fd));
+  background: linear-gradient(#7d70eb, #2ea2fd);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.wrapper .main-container .side-bar .nav-brand-icon .icon-text {
+  font-family: "Righteous", cursive;
+  font-size: 1.8rem;
+  position: absolute;
+  top: 50%;
+  right: 50%;
+  -webkit-transform: translate(50%, -50%);
+          transform: translate(50%, -50%);
+  color: #fff;
+}
+
+.wrapper .main-container .main-content {
+  height: 100vh;
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#292e3ad5), to(#535b6d)), url("https://s7d2.scene7.com/is/image/TWCNews/01-10-2020_Orlando_Weather_Early_Friday");
+  background-image: linear-gradient(#292e3ad5, #535b6d), url("https://s7d2.scene7.com/is/image/TWCNews/01-10-2020_Orlando_Weather_Early_Friday");
+  background-size: cover;
+  background-position: center;
+  position: relative;
+}
+/*# sourceMappingURL=style.css.map */
