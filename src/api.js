@@ -8,7 +8,113 @@ FusionCharts.addDep(fusionTheme);
 const utility = Utility();
 
 const API = () => {
+  const abbrevDate = (date) => {
+    function isToday(time, ele) {
+      const timeToday = new Date().getDay() === time.getDay() ? 'Today' : ele;
+      return timeToday;
+    }
+    const time = new Date(date);
+    let fullTime = time.toLocaleTimeString('en-us', { weekday: 'short', month: 'numeric', day: 'numeric' });
+    fullTime = `${isToday(time, fullTime.split(',')[0])} ${fullTime.split(',')[1]}`;
+    let shortTime = time.toLocaleTimeString('en-us', { weekday: 'long' });
+    shortTime = `${isToday(time, shortTime.split(' ')[0])}`;
+    return [fullTime, shortTime];
+  };
 
+  const convertTemp = (temp) => {
+    const celsuis = temp.toFixed(1);
+    const celTofah = ((celsuis * (9 / 5)) + 32).toFixed(1);
+    return [celsuis, celTofah];
+  };
+
+
+  const readableTime = (time) => {
+    const getLocDate = new Date(time);
+    let getLocTime = getLocDate.toLocaleTimeString({}, {
+      hour12: true, hour: 'numeric', minute: 'numeric',
+    });
+    getLocTime = getLocTime.replace(/\w{2}$/, c => c.toLowerCase()).replace(/\s/, '');
+    let getLocFullDate = getLocDate.toLocaleTimeString('en-us', { weekday: 'short', month: 'short', day: 'numeric' });
+    getLocFullDate = `${getLocFullDate.split(',')[0]}, ${getLocFullDate.split(',')[1]}`;
+    return [getLocTime, getLocFullDate];
+  };
+
+  const convertLocTime = (secDiff) => {
+    const date = new Date();
+    const convertDate = date.getTime() + (date.getTimezoneOffset() * 60000);
+    const time = convertDate + (secDiff * 1000);
+    return readableTime(time);
+  };
+
+  const convertSunTime = (unixTime, secDiff) => {
+    const date = new Date();
+    const convertDate = (unixTime * 1000) + (date.getTimezoneOffset() * 60000);
+    const time = convertDate + (secDiff * 1000);
+    return readableTime(time)[0];
+  };
+
+  const convTimeToMin = (time) => {
+    const timeT = time.split(' ')[0];
+    const ext = timeT.slice(-2);
+    const removeExt = timeT.replace(/\w{2}$/, '');
+    let first = removeExt.split(':')[0];
+    const second = removeExt.split(':')[1];
+    let converted;
+    function parseInteger(str) {
+      return parseInt(str, 10);
+    }
+    if (ext === 'am' && parseInteger(first) === 12) {
+      converted = parseInteger(second);
+    } else if (ext === 'am' || (ext === 'pm' && parseInteger(first) === 12)) {
+      first = parseInteger(first) * 60;
+      converted = first + parseInteger(second);
+    } else if (ext === 'pm') {
+      first = (parseInteger(first) + 12) * 60;
+      converted = first + parseInteger(second);
+    }
+    return converted;
+  };
+
+  const setTicker = () => {
+    const locTime = document.getElementById('time').innerHTML;
+    const sunrise = document.getElementById('sunrise').innerHTML;
+    const sunset = document.getElementById('sunset').innerHTML;
+    // const animationTime = (convTimeToMin(locTime) - convTimeToMin(sunset)) * 1000;
+    if (convTimeToMin(locTime) <= convTimeToMin(sunrise)) {
+      document.querySelector('.pointer').style.webkitTransform = `rotateZ(${-90}deg)`;
+      document.querySelector('.pointer').style.transform = `rotateZ(${-90}deg)`;
+    } else if (convTimeToMin(locTime) >= convTimeToMin(sunset)) {
+      document.querySelector('.pointer').style.webkitTransform = `rotateZ(${90}deg)`;
+      document.querySelector('.pointer').style.transform = `rotateZ(${90}deg)`;
+    } else {
+      let val = (convTimeToMin(locTime) - convTimeToMin(sunrise)) / 60;
+      const fromRtoS = (convTimeToMin(sunset) - convTimeToMin(sunrise)) / 60;
+      const aggr = 180 / fromRtoS;
+      val = (val * aggr) - 90;
+      document.querySelector('.pointer').style.webkitTransform = `rotateZ(${val}deg)`;
+      document.querySelector('.pointer').style.transform = `rotateZ(${val}deg)`;
+      // document.querySelector('.pointer').style.animation = `rotate ${animationTime}ms infinite linear`;
+    }
+  };
+
+  const setIntervalTicker = setInterval(setTicker, 120000);
+
+  const cardImage = (main, icon) => {
+    let image;
+    const wind1 = ['Mist', 'Smoke', 'Haze', 'Fog'];
+    const wind2 = ['Sand', 'Ash', 'Squall', 'Dust', 'Tornado'];
+    if (main === 'Clear') {
+      image = `${main}-${icon}.gif`;
+    } else if (wind1.includes(main)) {
+      image = 'Mist.gif';
+    } else if (wind2.includes(main)) {
+      image = 'Tornado.gif';
+    } else {
+      image = `${main}.gif`;
+    }
+
+    document.getElementById('search-loc-details-con').style.backgroundImage = `linear-gradient(#292e3ad5, rgba(83, 91, 109, 0.699)), url(../images/weatherGif/${image})`;
+  };
 
   const getDomElement = (data) => {
     const cleanedData = cleanLocDetailsData(data);
