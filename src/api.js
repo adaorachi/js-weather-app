@@ -542,7 +542,7 @@ const API = () => {
       let country;
       const cors = 'https://cors-anywhere.herokuapp.com/';
       const currentDate = new Date();
-      const currentLocation = fetch('./src/data4.json');
+      const currentLocation = fetch(`${cors}https://ipfind.co/?ip=197.210.52.91&auth=e1301a4b-c4e3-4e99-95d5-e5750e1a1fed`, { mode: 'cors' });
       const currentNews = fetch(`${cors}https://newsapi.org/v2/everything?q=weather&to=${currentDate}&apiKey=c4d03151880c4a5483bfdd5c83508124`, { mode: 'cors' });
       Promise.all([currentLocation, currentNews])
         .then((files) => {
