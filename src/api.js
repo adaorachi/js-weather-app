@@ -27,6 +27,96 @@ const API = () => {
     return [celsuis, celTofah];
   };
 
+  const windDirection = (deg) => {
+    let image;
+    if (deg === undefined) {
+      return '';
+    }
+    if (deg === 0 || deg === 360) {
+      image = 'N';
+    } else if (deg === 90) {
+      image = 'E';
+    } else if (deg === 180) {
+      image = 'S';
+    } else if (deg === 270) {
+      image = 'W';
+    } else if (deg > 0 && deg < 90) {
+      image = 'NE';
+    } else if (deg > 90 && deg < 180) {
+      image = 'SE';
+    } else if (deg > 180 && deg < 270) {
+      image = 'SW';
+    } else if (deg > 270 && deg < 360) {
+      image = 'NE';
+    }
+    return `<img src="images/wind/${image}.png" alt="${image}">`;
+  };
+
+  const cleanLocDetailsData = (data) => {
+    const cleanedData = {
+      desc: data.weather[0].description,
+      temp: data.main.temp,
+      pressure: data.main.pressure,
+      humidity: data.main.humidity,
+      feels_like: data.main.feels_like,
+      wind: data.wind.speed,
+      direction: data.wind.deg,
+      country: data.sys.country,
+      sunrise: data.sys.sunrise,
+      sunset: data.sys.sunset,
+      time: data.timezone,
+      city: data.name,
+      lat: data.coord.lat,
+      lon: data.coord.lon,
+      icon: data.weather[0].icon,
+      main: data.weather[0].main,
+    };
+
+    return cleanedData;
+  };
+
+  const cleanLocForecast = (data) => {
+    const setData = [];
+    data.forEach((item) => {
+      const value = item;
+      value.date = item.dt_txt.split(' ')[0];
+      value.time = item.dt_txt.split(' ')[1];
+      value.weather_desc = item.weather['0'].main;
+      setData.push(value);
+    });
+
+    const groupBy = (array, key) => array.reduce((result, currentValue) => {
+      (result[currentValue[key]] = result[currentValue[key]] || []).push(
+        currentValue,
+      );
+      return result;
+    }, {});
+
+    const dataGroupedByDate = groupBy(setData, 'date');
+    filteredForecastOverview(dataGroupedByDate, groupBy);
+    filteredForecastDetails(dataGroupedByDate);
+    filteredChartsData(dataGroupedByDate);
+    // forecastCharts();
+  };
+
+  const toggleTemp = (ele, value) => {
+    const tempBtn = document.getElementById('temp-btn');
+    const tempMetric = document.getElementById('slider-round');
+    let temp;
+    tempBtn.addEventListener('change', () => {
+      if (tempBtn.checked) {
+        // eslint-disable-next-line prefer-destructuring
+        temp = convertTemp(value)[1];
+        document.getElementById(`${ele}`).innerHTML = `${temp}<sup>f</sup>`;
+        tempMetric.setAttribute('data-metric', 'F');
+      } else {
+        // eslint-disable-next-line prefer-destructuring
+        temp = convertTemp(value)[0];
+        document.getElementById(`${ele}`).innerHTML = `${temp}<sup>o</sup>`;
+        tempMetric.setAttribute('data-metric', 'C');
+      }
+    });
+  };
 
   const readableTime = (time) => {
     const getLocDate = new Date(time);
