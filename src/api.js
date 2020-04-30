@@ -9,6 +9,42 @@ const utility = Utility();
 
 const API = () => {
 
+
+  const getDomElement = (data) => {
+    const cleanedData = cleanLocDetailsData(data);
+    Object.entries(cleanedData).forEach((item) => {
+      const key = item[0];
+      const value = item[1];
+      if (key === 'desc') {
+        document.getElementById(`${key}`).innerText = `${utility.capString(value)}`;
+      } else if (key === 'time') {
+        document.getElementById(`${key}`).innerText = `${convertLocTime(value)[0]} LT`;
+        document.getElementById('full-time').innerText = `${convertLocTime(value)[1]}`;
+      } else if (key === 'country') {
+        document.getElementById('country').innerText = `${country.countries[value].name}`;
+        document.getElementById('flag').innerHTML = `<img src="https://www.countryflags.io/${value.toLowerCase()}/shiny/64.png"></img>`;
+      } else if (key === 'icon') {
+        document.getElementById('loc-image').innerHTML = `<img src="images/weather/${value}.png" alt="${cleanedData.desc}">`
+      } else if (key === 'temp' || key === 'feels_like') {
+        document.getElementById(`${key}`).innerHTML = `${convertTemp(value)[0]}<sup>o</sup>`;
+        toggleTemp(key, value);
+      } else if (key === 'sunrise' || key === 'sunset') {
+        document.getElementById(`${key}`).innerText = convertSunTime(value, cleanedData.time);
+      } else if (key === 'lat' || key === 'lon') {
+        const { lat } = cleanedData;
+        const { lon } = cleanedData;
+        document.getElementById('iframe-container').innerHTML = `
+        <iframe src="https://openweathermap.org/weathermap?basemap=map&cities=true&layer=temperature&lat=${lat}&lon=${lon}&zoom=5" id="map-iframe" class="map-iframe"></iframe>`;
+      } else if (key === 'main') {
+        cardImage(value, cleanedData.icon);
+      } else if (key === 'direction') {
+        document.getElementById(`${key}`).innerHTML = windDirection(value);
+      } else {
+        document.getElementById(`${key}`).innerText = value;
+      }
+    });
+  };
+
   const processLocDetails = (promise) => {
     promise.then((data) => {
       getDomElement(data);
