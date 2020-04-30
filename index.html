@@ -6,34 +6,34 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Weather App</title>
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
-  <link href="https://fonts.googleapis.com/css2?family=Righteous&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Upright&family=Righteous&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="css/reset.css">
   <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
 
   <div class="wrapper">
-    <div class="main-container">
+    <div class="wrapper-container main-row">
       <div class="width-5">
         <div class="side-bar">
           <nav class="nav-bar">
             <div class="nav-brand">
               <a href="\" class="nav-brand-icon">
-                <i class="fas fa-cloud icon"></i>
+                <i class="fas fa-cloud icon text-gradient"></i>
                 <span class="icon-text">w</span>
               </a>
             </div>
-            <ul class="list-group">
-              <li class="list-group-item active">
-                <i class="fas fa-home icon"></i>
+            <ul class="list-group navbar-link" id="navbar-link">
+              <li class="list-group-item active" id="home">
+                <i class="fas fa-home icon text-gradient"></i>
               </li>
-              <li class="list-group-item">
+              <li class="list-group-item" id="settings">
                 <i class="fas fa-cog icon"></i>
               </li>
-              <li class="list-group-item">
+              <li class="list-group-item" id="addlocation">
                 <i class="fas fa-wind icon"></i>
               </li>
             </ul>
@@ -41,27 +41,305 @@
         </div>
 
       </div>
-      <div class="width-75">
-        <div class="main-content">
+      <div class="width-95">
+        <div class="main-container">
+          <div class="main-row">
+            <div class="width-75">
+              <nav class="top-nav">
+                <a href="\" class="top-nav-brand text-gradient">
+                  weatherSnap
+                </a>
+              </nav>
+              <main class="main-content">
+                <div class="first-container container active" id="home-page">
+                  <div class="error-container" id="error-container">
 
+                  </div>
+                  <section class="section-one">
+                    <div class="section-content">
+                      <div class="first-section main-row">
+                        <div class="width-60">
+                          <div class="search-location">
+                            <div class="input-container">
+                              <input type="text" class="search-input w-100" placeholder="Enter Location"
+                                id="location-search">
+                              <div class="auto-complete-text"></div>
+                            </div>
+                            <button type="button" class="search-btn button" id="search-btn">Search</button>
+                          </div>
+                          <div class="pos-relative">
+                            <div class="search-list-loc">
+                              <ul class="loc-list slide-effect" id="loc-list">
+
+                              </ul>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="width-40">
+                          <div class="current-loc-detail">
+                            <div class="main-section-content">
+                              <div class="time-set content">
+                                <span class="subject">Current Time:</span>
+                                <span class="get-time" id="get-time"></span>
+                              </div>
+                              <div class="loc content">
+                                <span class="subject">Current Location:</span>
+                                <span class="get-loc" id="get-loc"></span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="second-section main-row">
+                        <div class="width-40">
+                          <div class="search-loc-details">
+                            <div class="main-section-content" id="search-loc-details-con">
+                              <div class="full-time" id="full-time"></div>
+                              <div class="time-content">
+                                <i class="far fa-clock clock"></i>
+                                <span class="time" id="time"></span>
+                              </div>
+                              <div class="weather-icon">
+                                <div id="loc-image">
+
+                                </div>
+                                <div class="temp-con" id="temp-con">
+                                  <span class="deg" id="temp"></span>
+                                </div>
+                              </div>
+                              <div class="weather-desc" id="desc"></div>
+                              <div class="toggle-temp">
+                                <label class="switch">
+                                  <input type="checkbox" id="temp-btn">
+                                  <span class="slider" id="slider-round" data-metric="C"></span>
+                                </label>
+                              </div>
+                              <div class="weather-other-info">
+                                <div class="first-info all-info main-row">
+                                  <div class="city">
+                                    <div id="city">London</div>
+                                    <div class="country-cont">A city in
+                                      <span id="country"></span>
+                                      <span class="flag" id="flag">
+
+                                      </span>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="second-info all-info">
+                                  <div class="weather-main">
+                                    <i class="fas fa-temperature-high icon"></i>
+                                    <span>Feels like</span>
+                                    <span class="other-fig feel" id="feels-con">
+                                      <span id="feels_like"></span>
+                                    </span>
+                                  </div>
+                                  <div class="weather-main">
+                                    <img src="images/humidity.png" class="weather-main-icon" alt="">
+                                    <span>Humidity</span>
+                                    <span class="other-fig">
+                                      <span id="humidity"></span>%
+                                    </span>
+                                  </div>
+                                  <div class="weather-main">
+                                    <img src="images/pressure.png" class="weather-main-icon" alt="">
+                                    <span>Pressure</span>
+                                    <span class="other-fig">
+                                      <span id="pressure"></span>hPa
+                                    </span>
+                                  </div>
+                                  <div class="weather-main">
+                                    <i class="fas fa-wind icon"></i>
+                                    <span>Wind Speed</span>
+                                    <span class="other-fig">
+                                      <span id="wind"></span>m/s
+                                      <span class="direction" id="direction"></span>
+                                    </span>
+                                  </div>
+                                </div>
+                                <div class="third-info all-info">
+                                  <div class="flexed-column">
+                                    <div class="flexed-column">
+                                      <i class="fas fa-arrow-up"></i>
+                                      <i class="fas fa-sun"></i>
+                                    </div>
+                                    Sunrise
+                                  </div>
+                                  <div class="rise-set">
+                                    <div class="half-circle"></div>
+                                    <div class="pointer"></div>
+                                    <div class="rise-set-time">
+                                      <div class="set-time" id="sunrise"></div>
+                                      <div class="set-time" id="sunset"></div>
+                                    </div>
+                                  </div>
+                                  <div class="flexed-column">
+                                    <div class="flexed-column">
+                                      <i class="fas fa-arrow-down"></i>
+                                      <i class="fas fa-sun"></i>
+                                    </div>
+                                    Sunset
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="loader">
+                              <div class="loader-content">
+                                <img src="images/loader/loader1.gif" alt="">
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="width-60">
+                          <div class="search-loc-advanced">
+                            <div class="main-section-content">
+                              <section class="section-one section-container active" id="section-0">
+                                <div class="title">Forecast Details
+                                  <small>(Click on a day to see a 3-hourly forecast tabs)</small>
+                                </div>
+                                <nav>
+                                  <div class="nav nav-tabs" id="nav-table-tabs" role="tablist">
+
+                                  </div>
+                                </nav>
+                                <div class="tab-content forecast-tab-content scroll-bar" id="nav-tab-content">
+
+                                </div>
+                              </section>
+                              <section class="section-two section-container" id="section-1">
+                                <div class="title">Forecast Charts
+                                  <small>(Click on a day to see a 3-hourly forecast charts)</small>
+                                </div>
+                                <nav>
+                                  <div class="nav nav-tabs" id="nav-chart-tabs" role="tablist">
+
+                                  </div>
+                                </nav>
+                                <div class="tab-content scroll-bar" id="nav-tab-chart">
+
+                                </div>
+                              </section>
+                              <section class="section-three section-container" id="section-2">
+                                <div class="title">Base Map of location
+                                  <small>(Drag to view more)</small>
+                                </div>
+                                <div class="iframe-container" id="iframe-container">
+
+                                </div>
+                              </section>
+                              <div class="slideshow-button">
+                                <span class="fas fa-chevron-left text-white slide-prev slidebtn" id="slide-prev"
+                                  data-slide="-1">
+                                </span>
+                                <span class="fas fa-chevron-right text-white slide-next slidebtn" id="slide-next"
+                                  data-slide="1">
+                                  <i class=""></i>
+                                </span>
+                              </div>
+                            </div>
+                            <div class="loader">
+                              <div class="loader-content">
+                                <img src="images/loader/loader1.gif" alt="">
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="section-footer">
+                      <div class="main-section-content">
+                        <div class="title">Weekly Forecast Overview</div>
+                        <div class="week-general-forcast" id="week-forecast">
+                          <div class="forcast1 forcast">
+                            <div class="content main-row">
+                              <div class="image image-content">
+                                <img src="images/weather/02d.png" alt="">
+                              </div>
+                              <div class="info width-50">
+                                <span class="date">Mon 11/4</span>
+                                <span class="deg">24<sup>o</sup></span>
+                                <span class="stat">Sunny</span>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="forcast2 forcast">
+                            <div class="content main-row">
+                              <div class="image image-content">
+                                <img src="images/weather/02d.png" alt="">
+                              </div>
+                              <div class="info width-50">
+                                <span class="date">Tue 12/4</span>
+                                <span class="deg">34<sup>o</sup></span>
+                                <span class="stat">Cloudy</span>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="forcast3 forcast">
+                            <div class="content main-row">
+                              <div class="image image-content">
+                                <img src="images/weather/02d.png" alt="">
+                              </div>
+                              <div class="info width-50">
+                                <span class="date">Wed 13/4</span>
+                                <span class="deg">14<sup>o</sup></span>
+                                <span class="stat">Cloudy</span>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="forcast4 forcast">
+                            <div class="content main-row">
+                              <div class="image image-content">
+                                <img src="images/weather/02d.png" alt="">
+                              </div>
+                              <div class="info width-50">
+                                <span class="date">Thu 14/4</span>
+                                <span class="deg">4<sup>o</sup></span>
+                                <span class="stat">Snowy</span>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="forcast5 forcast">
+                            <div class="content main-row">
+                              <div class="image image-content">
+                                <img src="images/weather/02d.png" alt="">
+                              </div>
+                              <div class="info width-50">
+                                <span class="date">Fro 15/4</span>
+                                <span class="deg">44<sup>o</sup></span>
+                                <span class="stat">Stormy</span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="loader">
+                        <div class="loader-content">
+                          <img src="images/loader/loader1.gif" alt="">
+                        </div>
+                      </div>
+                    </div>
+                  </section>
+                </div>
+                <div class="second-container container" id="settings-page">
+                  ijwdijwei
+                </div>
+                <div class="second-container container" id="addlocation-page">
+                  ijwdijwei
+                </div>
+              </main>
+
+            </div>
+
+
+          </div>
         </div>
-      </div>
-      <div class="width-20">
-        mem
       </div>
     </div>
   </div>
 
-
-  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-    crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-    integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-    crossorigin="anonymous"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-    crossorigin="anonymous"></script>
+  <script type="text/javascript" src="https://cdn.fusioncharts.com/fusioncharts/latest/fusioncharts.js"></script>
+  <script type="text/javascript"
+    src="https://cdn.fusioncharts.com/fusioncharts/latest/themes/fusioncharts.theme.fusion.js"></script>
   <script src="dist/main.js"></script>
 
 </body>
