@@ -75,6 +75,39 @@ const API = () => {
     return cleanedData;
   };
 
+  const forecastChartsRender = (label, series, chartContainer, day) => {
+    FusionCharts.ready(() => {
+      const chartObj = new FusionCharts({
+        type: 'mssplinearea',
+        renderAt: `${chartContainer}`,
+        width: '100%',
+        height: '80%',
+        dataFormat: 'json',
+        dataSource: {
+          chart: {
+            theme: 'fusion',
+            caption: `Weather Forecast for ${day}`,
+            xAxisName: 'Hour',
+            yAxisName: 'Weather Conditions',
+            showXAxisLine: '1',
+            toolTipBorderColor: "#666666",
+            toolTipBgColor: "#efefef",
+            toolTipBgAlpha: "80",
+            showToolTipShadow: "1",
+            toolTipBorderRadius: '2',
+            toolTipPadding: '5',
+          },
+
+          categories: [{
+            category: label,
+          }],
+          dataset: series,
+        },
+      });
+      chartObj.render();
+    });
+  };
+
   const filteredForecastOverview = (array, groupBy) => {
     const finalData = [];
     let displayForcast = '';
@@ -174,6 +207,66 @@ const API = () => {
     });
     document.getElementById('nav-table-tabs').innerHTML = forecastDays;
     document.getElementById('nav-tab-content').innerHTML = forecastDetails;
+  };
+
+  const chartsData = (array) => {
+    const filteredArray = [];
+    Object.entries(array).forEach((day) => {
+      const key = day[0];
+      const valueV = day[1];
+
+      const valueArray2 = [];
+      const valueArray = [];
+      const allMain = [[], [], []];
+
+      valueV.forEach((item) => {
+        allMain[0].push({ value: item.main.humidity });
+        allMain[1].push({ value: item.main.feels_like });
+        allMain[2].push({ value: item.main.temp });
+
+        const timeV = {};
+        timeV.label = item.time.split(':').slice(0, 2).join(':');
+        valueArray.push(timeV);
+      });
+
+      valueArray2.push({ seriesname: 'Humidity(%)', data: allMain[0] });
+      valueArray2.push({ seriesname: 'Feels-like(c)', data: allMain[1] });
+      valueArray2.push({ seriesname: 'Temperature(c)', data: allMain[2] });
+
+      const keyA = {};
+      keyA[key] = [valueArray2, valueArray];
+      filteredArray.push(keyA);
+    });
+    return filteredArray;
+  };
+
+  const filteredChartsData = (array) => {
+    const data = chartsData(array);
+    let forecastDays = '';
+    let forecastCharts = '';
+    data.forEach((item, index) => {
+      Object.entries(item).forEach((itemV) => {
+        const key = itemV[0];
+        const value = itemV[1];
+        const activeNav = index === 0 ? 'first-nav active' : '';
+        const activeTab = index === 0 ? 'first-tab active' : '';
+        forecastDays += `
+         <span class="nav-item nav-link ${activeNav}" id="nav-${index + 1}-tab">${abbrevDate(key)[1]}</span>`;
+
+        forecastCharts += `
+        <div class="tab-pane ${activeTab}" id="nav-${index + 1}">
+          <div class="forecast-chart">
+            <div class="chart-contents" id="chart-container-${index + 1}">
+            </div>
+          </div>
+        </div>`;
+        const label = value[1];
+        const series = value[0];
+        forecastChartsRender(label, series, `chart-container-${index + 1}`, abbrevDate(key)[1]);
+      });
+    });
+    document.getElementById('nav-chart-tabs').innerHTML = forecastDays;
+    document.getElementById('nav-tab-chart').innerHTML = forecastCharts;
   };
 
   const cleanLocForecast = (data) => {
