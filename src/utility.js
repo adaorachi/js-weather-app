@@ -1,4 +1,4 @@
-// import cities from 'cities.json';
+import cities from 'cities.json';
 
 const Utility = () => {
   const setCurrentTime = () => {
@@ -188,6 +188,11 @@ const Utility = () => {
         locList.classList.add('slide-effect');
         document.querySelector('.auto-complete-text').innerText = '';
       }
+
+      document.getElementById('search-btn').addEventListener('click', () => {
+        locList.classList.add('slide-effect');
+        document.querySelector('.auto-complete-text').innerText = '';
+      });
     });
   };
 

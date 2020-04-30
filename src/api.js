@@ -467,8 +467,8 @@ const API = () => {
     const mainContent = document.querySelectorAll('.main-section-content');
     mainContent.forEach((item) => { item.style.display = 'none'; });
 
-    const currentLocDetails = fetch(`http://api.openweathermap.org/data/2.5/weather?q=${value}&units=metric&appid=5839353095e9bdcc9ae4f18268574044`, { mode: 'cors' });
-    const forecastDetails = fetch(`http://api.openweathermap.org/data/2.5/forecast?q=${value}&units=metric&appid=5839353095e9bdcc9ae4f18268574044`, { mode: 'cors' });
+    const currentLocDetails = fetch(`https://api.openweathermap.org/data/2.5/weather?q=${value}&units=metric&appid=5839353095e9bdcc9ae4f18268574044`, { mode: 'cors' });
+    const forecastDetails = fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${value}&units=metric&appid=5839353095e9bdcc9ae4f18268574044`, { mode: 'cors' });
     Promise.all([currentLocDetails, forecastDetails])
       .then((responses) => {
         let aa = false;
