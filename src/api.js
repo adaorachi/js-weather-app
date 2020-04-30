@@ -467,8 +467,10 @@ const API = () => {
     const mainContent = document.querySelectorAll('.main-section-content');
     mainContent.forEach((item) => { item.style.display = 'none'; });
 
-    const currentLocDetails = fetch(`https://api.openweathermap.org/data/2.5/weather?q=${value}&units=metric&appid=5839353095e9bdcc9ae4f18268574044`, { mode: 'cors' });
-    const forecastDetails = fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${value}&units=metric&appid=5839353095e9bdcc9ae4f18268574044`, { mode: 'cors' });
+    const cors = 'https://cors-anywhere.herokuapp.com/';
+
+    const currentLocDetails = fetch(`${cors}https://api.openweathermap.org/data/2.5/weather?q=${value}&units=metric&appid=5839353095e9bdcc9ae4f18268574044`, { mode: 'cors' });
+    const forecastDetails = fetch(`${cors}https://api.openweathermap.org/data/2.5/forecast?q=${value}&units=metric&appid=5839353095e9bdcc9ae4f18268574044`, { mode: 'cors' });
     Promise.all([currentLocDetails, forecastDetails])
       .then((responses) => {
         let aa = false;
@@ -538,9 +540,10 @@ const API = () => {
     window.addEventListener('load', () => {
       let city;
       let country;
+      const cors = 'https://cors-anywhere.herokuapp.com/';
       const currentDate = new Date();
       const currentLocation = fetch('./src/data4.json');
-      const currentNews = fetch(`https://newsapi.org/v2/everything?q=weather&to=${currentDate}&apiKey=c4d03151880c4a5483bfdd5c83508124`, { mode: 'cors' });
+      const currentNews = fetch(`${cors}https://newsapi.org/v2/everything?q=weather&to=${currentDate}&apiKey=c4d03151880c4a5483bfdd5c83508124`, { mode: 'cors' });
       Promise.all([currentLocation, currentNews])
         .then((files) => {
           const curLoc = files[0].json();
