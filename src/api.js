@@ -397,7 +397,7 @@ const API = () => {
       image = `${main}.gif`;
     }
 
-    document.getElementById('search-loc-details-con').style.backgroundImage = `linear-gradient(#292e3ad5, rgba(83, 91, 109, 0.699)), url(../images/weatherGif/${image})`;
+    document.getElementById('search-loc-details-con').style.backgroundImage = `linear-gradient(#292e3ad5, rgba(83, 91, 109, 0.699)), url("images/weatherGif/${image}")`;
   };
 
   const getDomElement = (data) => {
@@ -469,8 +469,8 @@ const API = () => {
 
     const cors = 'https://cors-anywhere.herokuapp.com/';
 
-    const currentLocDetails = fetch(`${cors}https://api.openweathermap.org/data/2.5/weather?q=${value}&units=metric&appid=5839353095e9bdcc9ae4f18268574044`, { mode: 'cors' });
-    const forecastDetails = fetch(`${cors}https://api.openweathermap.org/data/2.5/forecast?q=${value}&units=metric&appid=5839353095e9bdcc9ae4f18268574044`, { mode: 'cors' });
+    const currentLocDetails = fetch(`${cors}http://api.openweathermap.org/data/2.5/weather?q=${value}&units=metric&appid=5839353095e9bdcc9ae4f18268574044`, { mode: 'cors' });
+    const forecastDetails = fetch(`${cors}http://api.openweathermap.org/data/2.5/forecast?q=${value}&units=metric&appid=5839353095e9bdcc9ae4f18268574044`, { mode: 'cors' });
     Promise.all([currentLocDetails, forecastDetails])
       .then((responses) => {
         let aa = false;
