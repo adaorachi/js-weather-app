@@ -100,13 +100,117 @@ const Utility = () => {
     });
   };
 
+  const autoCompleteLocationDetails = (currentFocus, eventVal) => {
+    const focusedElement = document.getElementById(`city-${currentFocus}`).innerText;
+    const re = new RegExp(`^${capString(eventVal)}`);
+    if (focusedElement.match(re)) {
+      document.querySelector('.auto-complete-text').innerText = focusedElement.slice(0, 28);
+    } else {
+      document.querySelector('.auto-complete-text').innerText = '';
+    }
+  };
+
+  const highlightSearchList = (searchVal, string) => {
+    const searchValL = searchVal.length;
+    const stringBold = string.slice(0, searchValL).bold();
+    const stringUnbold = string.slice(searchValL);
+    const stringFormat = `${stringBold}${stringUnbold}`;
+    return stringFormat;
+  };
+
+  const fillInputOnKeyCode = (currentFocus, ...theArgs) => {
+    const locListItems = document.querySelectorAll('.loc-list .loc-list-item');
+    const e = theArgs[0];
+    const locationSearch = theArgs[1];
+    const locList = theArgs[2];
+    if (e.keyCode === 40) {
+      arguments[0] += 1;
+      if (arguments[0] >= locListItems.length) {
+        arguments[0] = 0;
+      }
+    } else if (e.keyCode === 38) {
+      arguments[0] -= 1;
+      if (arguments[0] <= 0) {
+        arguments[0] = 0;
+      }
+    } else if (e.keyCode === 9 || e.keyCode === 13) {
+      const listText = document.getElementById(`city-${arguments[0]}`).innerText;
+      locationSearch.value = listText;
+      locList.classList.add('slide-effect');
+    } else {
+      arguments[0] = 0;
+    }
+    document.getElementById(`city-${arguments[0]}`).style.backgroundColor = '#fff';
+    currentFocus = arguments[0];
+    return currentFocus;
+  };
+
+  const getCityOnInput = () => {
+    const locationSearch = document.getElementById('location-search');
+    let currentFocus = 0;
+    locationSearch.addEventListener('keyup', (e) => {
+      const eventVal = e.target.value;
+      const locList = document.getElementById('loc-list');
+      locationSearch.value = capString(eventVal);
+
+      if (eventVal.trim() !== '') {
+        const re = new RegExp(`^${eventVal}`, 'i');
+        const citiesFiltered = cities.filter((item) => re.test(`${item.name}, ${item.country}`))
+          .filter((elem, index, self) => self.findIndex(
+            (t) => {
+              return (t.name === elem.name && t.country === elem.country);
+            }) === index)
+          .sort((a, b) => {
+            const x = a.name;
+            const y = b.name;
+            return x < y ? -1 : x > y ? 1 : 0;
+          })
+          .slice(0, 5);
+
+        let cityDisplay = '';
+        if (citiesFiltered.length > 0) {
+          citiesFiltered.forEach((city, index) => {
+            const locConcat = `${capString(city.name)}, ${city.country}`;
+            cityDisplay += `
+            <li class="loc-list-item" id="city-${index}">${highlightSearchList(eventVal, locConcat)}</li>`;
+          });
+
+          locList.innerHTML = cityDisplay;
+          locList.classList.remove('slide-effect');
+
+          currentFocus = fillInputOnKeyCode(currentFocus, e, locationSearch, locList);
+          autoCompleteLocationDetails(currentFocus, eventVal);
+        } else {
+          document.querySelector('.auto-complete-text').innerText = '';
+          locList.classList.add('slide-effect');
+        }
+      } else {
+        locList.classList.add('slide-effect');
+        document.querySelector('.auto-complete-text').innerText = '';
+      }
+    });
+  };
+
+  const populateSearchValue = () => {
+    const locList = document.getElementById('loc-list');
+    locList.addEventListener('click', (e) => {
+      const event = e.target;
+      if (event.classList.contains('loc-list-item')) {
+        const locationSearch = document.getElementById('location-search');
+        locationSearch.value = event.innerText;
+        locList.classList.add('slide-effect');
+        document.querySelector('.auto-complete-text').innerText = '';
+      }
+    });
+  };
 
   return {
     capString,
     setCurrentTime,
     toggleNav,
     slideshow,
-
+    getCityOnInput,
+    populateSearchValue,
     closeErrorMsg,
     displayMsgError,
     toggleNavPages,
