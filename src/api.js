@@ -75,6 +75,107 @@ const API = () => {
     return cleanedData;
   };
 
+  const filteredForecastOverview = (array, groupBy) => {
+    const finalData = [];
+    let displayForcast = '';
+    Object.entries(array).forEach((item) => {
+      const value = item[1];
+      let filtered;
+      if (value.length >= 4) {
+        const groupedFilteredData = groupBy(value, 'weather_desc');
+        const firstKey = Object.entries(groupedFilteredData).map((item) => [item[0], item[1].length]).sort((a, b) => b[1] - a[1])[0][0];
+        filtered = groupedFilteredData[firstKey]['0'];
+        finalData.push(filtered);
+      }
+    });
+
+    finalData.slice(0, 5).forEach((item, index) => {
+      displayForcast += `
+      <div class="forcast${index + 1} forcast">
+        <div class="content main-row">
+          <div class="image image-content">
+            <img src="images/weather/${item.weather['0'].icon}.png" alt="${item.weather_desc}">
+          </div>
+          <div class="info width-50">
+            <span class="date">${abbrevDate(item.date)[0]}</span>
+            <span class="deg">${convertTemp(item.main.temp)[0]}<sup>o</sup></span>
+            <span class="stat">${item.weather_desc}</span>
+          </div>
+        </div>
+      </div>`;
+      document.getElementById('week-forecast').innerHTML = displayForcast;
+    });
+  };
+
+  const filteredForecastDetails = (array) => {
+    let forecastDays = '';
+    let forecastDetails = '';
+    Object.entries(array).forEach((day, index) => {
+      const key = day[0];
+      const value = day[1];
+      const activeNav = index === 0 ? 'first-nav active' : '';
+      const activeTab = index === 0 ? 'first-tab active' : '';
+      forecastDays += `
+      <span class="nav-item nav-link ${activeNav}" id="nav-${index + 1}-tab">${abbrevDate(key)[1]}</span>`;
+
+      let allDayForcast = '';
+      value.forEach((item) => {
+        const rainSpeed = item.rain === undefined ? '-' : `${item.rain['3h']}mm`;
+        allDayForcast += `
+        <li class="forecast-item">
+            <div class="f-main-details">
+              <div class="f-time">${item.time}</div>
+              <div class="f-icon">
+                <img src="images/weather/${item.weather['0'].icon}.png" alt="" class="forecast-icon">
+                <span>${convertTemp(item.main.temp)[0]}<sup>o</sup></span>
+              </div>
+              <div class="f-desc">
+              ${utility.capString(item.weather['0'].description)}
+              </div>
+            </div>
+            <div class="f-other-details">
+              <div class="f-humidity f-details">
+                <span>Feels like</span>
+                <span>${convertTemp(item.main.feels_like)[0]}<sup>o</sup></span>
+              </div>
+              <div class="f-humidity f-details">
+                <span>Humidity</span>
+                <span>${item.main.humidity}%</span>
+              </div>
+              <div class="f-humidity f-details">
+                <span>Pressure</span>
+                <span>${item.main.pressure}hPa</span>
+              </div>
+              <div class="f-humidity f-details">
+                <span>Wind Speed</span>
+                <div class="flexed-row">
+                  <span>${item.wind.speed}m/s</span>
+                  <span class="direction">
+                    ${windDirection(item.wind.deg)}
+                  </span>
+                </div>
+              </div>
+              <div class="f-humidity f-details">
+                <span>Rain Vol</span>
+                <span>${rainSpeed}</span>
+              </div>
+            </div>
+          </li>`;
+      });
+
+      forecastDetails += `
+      <div class="tab-pane ${activeTab}" id="nav-${index + 1}">
+        <div class="forecast-details">
+          <ul class="forecast-list">
+            ${allDayForcast}
+          </ul>
+        </div>
+      </div>`;
+    });
+    document.getElementById('nav-table-tabs').innerHTML = forecastDays;
+    document.getElementById('nav-tab-content').innerHTML = forecastDetails;
+  };
+
   const cleanLocForecast = (data) => {
     const setData = [];
     data.forEach((item) => {
