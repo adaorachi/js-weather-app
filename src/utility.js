@@ -174,16 +174,14 @@ const Utility = () => {
       if (arguments[0] <= 0) {
         arguments[0] = 0;
       }
-    } else {
-      arguments[0] = 0;
-    }
-
-    if (e.keyCode === 13) {
+    } else if (e.keyCode === 13) {
       const listText = document.getElementById(`city-${arguments[0]}`).innerText;
       locationSearch.value = listText;
       locList.classList.add('slide-effect');
       document.getElementById('auto-complete-text').style.display = 'none';
       document.getElementById('search-btn').click();
+    } else {
+      arguments[0] = 0;
     }
     document.getElementById(`city-${arguments[0]}`).style.backgroundColor = '#fff';
     // eslint-disable-next-line prefer-destructuring
