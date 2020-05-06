@@ -175,6 +175,7 @@ const API = () => {
         processAPICallForMainLoc(value, 'metric');
         utility.toggleFirstPageContent('weather-card', 'details-card');
         utility.uncheckTempToggle();
+        document.getElementById('click-on-day').style.display = 'flex';
       }
       searchInput.value = '';
     });

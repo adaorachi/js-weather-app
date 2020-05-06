@@ -911,8 +911,15 @@ b {
 			width: 95%;
 
 			.title {
+				position: absolute;
+    		top: -4rem;
 				padding: 0 0.5rem 0.2rem;
 				font-size: 1.2rem;
+
+				.arrow {
+					position: relative;
+					animation: beep 650ms linear infinite;
+				}
 			}
 
 			.week-general-forcast {
@@ -1108,6 +1115,17 @@ b {
 		}
 		100% {
 			top: 0px;
+		}
+	}
+
+	@keyframes beep {
+		0% {
+			opacity: 0;
+			top: -5px;
+		}
+		100% {
+			opacity: 1;
+			top: 5px;
 		}
 	}
 }

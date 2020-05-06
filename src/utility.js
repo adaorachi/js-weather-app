@@ -49,7 +49,7 @@ const Utility = () => {
 
   const deleteAddLocTab = () => {
     document.addEventListener('click', (e) => {
-      if (e.target.classList.contains('delete-button')) {
+      if (e.target.classList.contains('delete-loc-button')) {
         const { id } = e.target;
         const parent = id.split('-')[1];
         document.getElementById(parent).remove();
@@ -74,6 +74,7 @@ const Utility = () => {
   const backButton = () => {
     const button = document.getElementById('back-button');
     button.addEventListener('click', () => {
+      document.getElementById('click-on-day').style.display = 'flex';
       toggleFirstPageContent('weather-card', 'details-card');
       const overviewTabs = document.querySelectorAll('.section-footer .forcast');
       overviewTabs.forEach((item) => item.classList.remove('active'));
@@ -89,6 +90,7 @@ const Utility = () => {
         ui.filteredChartsData(array, id);
         hideAndDisplayNav(id, '.section-footer .forcast');
         toggleFirstPageContent('details-card', 'weather-card');
+        document.getElementById('click-on-day').style.display = 'none';
       });
     });
   };
@@ -100,6 +102,7 @@ const Utility = () => {
         const { id } = page;
         if (id === 'home') {
           toggleFirstPageContent('weather-card', 'details-card');
+          document.getElementById('click-on-day').style.display = 'flex';
           const overviewTabs = document.querySelectorAll('.section-footer .forcast');
           overviewTabs.forEach((item) => item.classList.remove('active'));
         }
@@ -171,13 +174,16 @@ const Utility = () => {
       if (arguments[0] <= 0) {
         arguments[0] = 0;
       }
-    } else if (e.keyCode === 9 || e.keyCode === 13) {
+    } else {
+      arguments[0] = 0;
+    }
+
+    if (e.keyCode === 13) {
       const listText = document.getElementById(`city-${arguments[0]}`).innerText;
       locationSearch.value = listText;
       locList.classList.add('slide-effect');
+      document.getElementById('auto-complete-text').style.display = 'none';
       document.getElementById('search-btn').click();
-    } else {
-      arguments[0] = 0;
     }
     document.getElementById(`city-${arguments[0]}`).style.backgroundColor = '#fff';
     // eslint-disable-next-line prefer-destructuring
@@ -193,6 +199,7 @@ const Utility = () => {
       const eventVal = e.target.value;
       const locList = document.getElementById('loc-list');
       locationSearch.value = logic.capString(eventVal);
+      document.getElementById('auto-complete-text').style.display = 'block';
 
       function slideInList() {
         locList.classList.add('slide-effect');
@@ -277,18 +284,14 @@ const Utility = () => {
   };
 
   const updateAllDataAtInterval = (inputVal) => {
-    const countryCityName = [];
-    const countryCityTime = [];
-    const dataLoc = logic.parseJSON('add_location');
-    Object.entries(dataLoc).forEach((item) => {
-      const value = item[1];
-      const name = `${value.name}, ${value.country}`;
-      const time = `${item[0]}-${value.time}`;
-      countryCityName.push(name);
-      countryCityTime.push(time);
-    });
-
     setInterval(() => {
+      const dataLoc = logic.parseJSON('add_location');
+      const countryCityTime = [];
+      Object.entries(dataLoc).forEach((item) => {
+        const value = item[1];
+        const time = `${item[0]}-${value.time}`;
+        countryCityTime.push(time);
+      });
       countryCityTime.forEach((item) => {
         const time = item.split('-')[1];
         const key = item.split('-')[0];
@@ -297,6 +300,13 @@ const Utility = () => {
     }, 60000);
 
     setInterval(() => {
+      const countryCityName = [];
+      const dataLoc = logic.parseJSON('add_location');
+      Object.entries(dataLoc).forEach((item) => {
+        const value = item[1];
+        const name = `${value.name}, ${value.country}`;
+        countryCityName.push(name);
+      });
       const value = inputVal;
       processAPICallForMainLoc(value, 'metric');
       utility.toggleFirstPageContent('weather-card', 'details-card');

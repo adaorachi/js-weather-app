@@ -1072,8 +1072,16 @@ b {
 }
 
 .wrapper .main-container .section-footer .title {
+  position: absolute;
+  top: -4rem;
   padding: 0 0.5rem 0.2rem;
   font-size: 1.2rem;
+}
+
+.wrapper .main-container .section-footer .title .arrow {
+  position: relative;
+  -webkit-animation: beep 650ms linear infinite;
+          animation: beep 650ms linear infinite;
 }
 
 .wrapper .main-container .section-footer .week-general-forcast {
@@ -1302,6 +1310,28 @@ b {
   }
   100% {
     top: 0px;
+  }
+}
+
+@-webkit-keyframes beep {
+  0% {
+    opacity: 0;
+    top: -5px;
+  }
+  100% {
+    opacity: 1;
+    top: 5px;
+  }
+}
+
+@keyframes beep {
+  0% {
+    opacity: 0;
+    top: -5px;
+  }
+  100% {
+    opacity: 1;
+    top: 5px;
   }
 }
 /*# sourceMappingURL=style.css.map */

@@ -203,9 +203,7 @@ const UI = () => {
 
         addLocation += `
         <li class="list" id="${key}">
-          <div class="delete-loc-button">
-            <i class="fas fa-times delete-button" id="delete-${key}"></i>
-          </div>
+          <span class="fas fa-times delete-loc-button" id="delete-${key}"></span>
           <div class="top-section section flexed-row inset-border">
             <div class="loc-name flexed-column">
               <div class="add-city flex-start">

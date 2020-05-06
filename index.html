@@ -61,7 +61,7 @@
                           <div class="input-container">
                             <input type="text" class="search-input w-100" placeholder="Enter Location"
                               id="location-search" autocomplete="off">
-                            <div class="auto-complete-text"></div>
+                            <div class="auto-complete-text" id="auto-complete-text"></div>
                           </div>
                           <button type="button" class="search-btn button" id="search-btn">Search</button>
                         </div>
@@ -236,8 +236,9 @@
                   </div>
                   <div class="section-footer">
                     <div class="main-section-content">
-                      <span class="title">
+                      <span class="title flexed-column" id="click-on-day">
                         Click on a day to see daily forecast
+                        <i class="fas fa-arrow-down arrow"></i>
                       </span>
                       <div class="week-general-forcast" id="week-forecast">
 
@@ -262,7 +263,6 @@
                       <div class="input-container width-100">
                         <input type="text" class="search-input w-100" placeholder="Enter Location"
                           id="add-location-search" autocomplete="off">
-                        <div class="auto-complete-text"></div>
                       </div>
                       <button type="button" class="search-btn button" id="add-search-btn">Add</button>
                     </div>
