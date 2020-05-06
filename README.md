@@ -2,6 +2,11 @@
 
 This project is a Weather App built with JavaScript. It implements the functionality of using a weather API (openweathermap.org), fetching data from its server and displaying them creatively on the project site. It also uses basically Factory functions and Module Patterns in creating the functionalities and logic.
 
+<p>Below are the HomePage Screenshots</p>
+
+<img src="images/screenshots/screenshots1.jpg" alt="screenshot1"><br>
+<img src="images/screenshots/screenshots2.jpg" alt="screenshot1"><br>
+
 ## Table of Contents
 
 * [About the Project](#about-the-project)
@@ -49,10 +54,6 @@ Link for project specifications: [Odin-Project](https://www.theodinproject.com/c
 
 This is the link to the live preview in Netlify. Feel free to visit.<br>
 [WeatherSnap - Weather Forecast Web App](https://weather-snap.netlify.app)<br>
-<p>Below are the HomePage Screenshots</p>
-
-<img src="images/screenshots/screenshots1.jpg" alt="screenshot1"><br>
-<img src="images/screenshots/screenshots2.jpg" alt="screenshot1"><br>
 
 
 <!-- REQUIRED INSTALLATION -->
