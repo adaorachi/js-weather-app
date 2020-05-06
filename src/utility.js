@@ -173,6 +173,7 @@ const Utility = () => {
       const listText = document.getElementById(`city-${arguments[0]}`).innerText;
       locationSearch.value = listText;
       locList.classList.add('slide-effect');
+      document.getElementById('search-btn').click();
     } else {
       arguments[0] = 0;
     }

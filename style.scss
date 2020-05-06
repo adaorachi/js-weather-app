@@ -302,7 +302,7 @@ b {
 
 		.top-nav {
 			position: relative;
-			box-shadow: 2px 1px 5px #353535;
+			box-shadow: inset -1px -1px 3px #353535;
 			padding: 0.7rem;
 		}
 
@@ -474,9 +474,7 @@ b {
 
 			.main-section-content {
 				border-radius: 10px;
-				box-shadow: 2px -1px 3px #424242, -2px 1px 3px #464545;
-				background-size: cover;
-				background-position: center;
+				box-shadow: inset 0 0 5px #272727;;
 			}
 
 			.weather-icon {
@@ -928,7 +926,7 @@ b {
 				// border-left: 1px inset #b9b9b9;
 
 				&.active {
-					box-shadow: 2px -2px 2px #414141, -2px 2px 2px #414141;
+					box-shadow: inset 2px -2px 2px #272727, inset -2px 2px 2px #313131;
 					transform: scale(1.04);
 					z-index: 12;
 				}
