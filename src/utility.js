@@ -281,39 +281,23 @@ const Utility = () => {
     });
   };
 
-  const updateAllDataAtInterval = (inputVal) => {
+  const updateDateAtInterval = () => {
     setInterval(() => {
       const dataLoc = logic.parseJSON('add_location');
-      const countryCityTime = [];
-      Object.entries(dataLoc).forEach((item) => {
-        const value = item[1];
-        const time = `${item[0]}-${value.time}`;
-        countryCityTime.push(time);
-      });
-      countryCityTime.forEach((item) => {
-        const time = item.split('-')[1];
-        const key = item.split('-')[0];
-        document.getElementById(`ticker-${key}`).innerHTML = `${logic.convertLocTime(time)[0]}. ${logic.convertLocTime(time)[1]}.`;
-      });
+      if (dataLoc !== null) {
+        const countryCityTime = [];
+        Object.entries(dataLoc).forEach((item) => {
+          const value = item[1];
+          const time = `${item[0]}_${value.time}`;
+          countryCityTime.push(time);
+        });
+        countryCityTime.forEach((item) => {
+          const time = item.split('_')[1];
+          const key = item.split('_')[0];
+          document.getElementById(`ticker-${key}`).innerHTML = `${logic.convertLocTime(time)[0]}. ${logic.convertLocTime(time)[1]}.`;
+        });
+      }
     }, 60000);
-
-    setInterval(() => {
-      const countryCityName = [];
-      const dataLoc = logic.parseJSON('add_location');
-      Object.entries(dataLoc).forEach((item) => {
-        const value = item[1];
-        const name = `${value.name}, ${value.country}`;
-        countryCityName.push(name);
-      });
-      const value = inputVal;
-      processAPICallForMainLoc(value, 'metric');
-      utility.toggleFirstPageContent('weather-card', 'details-card');
-      utility.uncheckTempToggle();
-
-      countryCityName.forEach((city) => {
-        processAPICallForAddLoc(city, 'metric');
-      });
-    }, 1800000);
   };
 
   return {
@@ -331,7 +315,7 @@ const Utility = () => {
     changeTempOnToggle,
     uncheckTempToggle,
     deleteAddLocTab,
-    updateAllDataAtInterval,
+    updateDateAtInterval,
   };
 };
 

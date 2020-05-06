@@ -231,8 +231,6 @@ const API = () => {
 
         const data = logic.parseJSON('location');
         ui.setCurrentTimeAndDate(data);
-
-        utility.updateAllDataAtInterval(INPUTVALUE);
       }
 
       fetchNewsData();
@@ -240,11 +238,36 @@ const API = () => {
     });
   };
 
+  const updateAllAddLocAtInterval = () => {
+    setInterval(() => {
+      const countryCityName = [];
+      const dataLoc = logic.parseJSON('add_location');
+      if (dataLoc !== null) {
+        Object.entries(dataLoc).forEach((item) => {
+          const value = item[1];
+          const name = `${value.name}, ${value.country}`;
+          countryCityName.push(name);
+        });
+        countryCityName.forEach((city) => {
+          processAPICallForAddLoc(city, 'metric');
+        });
+      }
+
+      if (INPUTVALUE !== undefined) {
+        const value = INPUTVALUE;
+        processAPICallForMainLoc(value, 'metric');
+        utility.toggleFirstPageContent('weather-card', 'details-card');
+        utility.uncheckTempToggle();
+      }
+    }, 1800000);
+  };
+
   return {
     makeAPICall,
     getCurrentLocationOnLoad,
     callAPIOnTempToggle,
     addFavLocAPICall,
+    updateAllAddLocAtInterval,
   };
 };
 

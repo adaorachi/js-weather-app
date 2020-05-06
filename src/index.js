@@ -10,9 +10,11 @@ utility.closeErrorMsg();
 utility.toggleNavPages();
 utility.backButton();
 utility.deleteAddLocTab();
+utility.updateDateAtInterval();
 
 const api = API();
 api.makeAPICall();
 api.getCurrentLocationOnLoad();
 api.callAPIOnTempToggle();
 api.addFavLocAPICall();
+api.updateAllAddLocAtInterval();
