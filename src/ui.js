@@ -1,3 +1,5 @@
+/* eslint import/no-unresolved: [2, { ignore: ['countries-list'] }] */
+
 import country from 'countries-list';
 import Logic from './logic';
 import mod from './addLocModule';

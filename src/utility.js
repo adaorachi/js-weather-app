@@ -1,4 +1,6 @@
 /* eslint-disable no-undef */
+/* eslint import/no-unresolved: [2, { ignore: ['cities'] }] */
+
 import cities from 'cities.json';
 import UI from './ui';
 import Logic from './logic';

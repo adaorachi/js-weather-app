@@ -1,3 +1,5 @@
+/* eslint import/no-unresolved: [2, { ignore: ['FusionCharts', 'fusionTheme'] }] */
+
 import FusionCharts from 'fusioncharts';
 import fusionTheme from 'fusioncharts/themes/es/fusioncharts.theme.fusion';
 
