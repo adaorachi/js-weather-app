@@ -1,4 +1,10 @@
+/* eslint-disable no-undef */
 import cities from 'cities.json';
+import UI from './ui';
+import Logic from './logic';
+
+const ui = UI();
+const logic = Logic();
 
 const Utility = () => {
   const setCurrentTime = () => {
@@ -12,8 +18,6 @@ const Utility = () => {
     setInterval(getTime, 1000);
   };
 
-  const capString = (string) => string.replace(/^\w/, c => c.toUpperCase());
-
   const hideAndDisplayNav = (ele, arrayList) => {
     const array = document.querySelectorAll(arrayList);
     Array.from(array).forEach((item) => {
@@ -25,8 +29,8 @@ const Utility = () => {
     });
   };
 
-  const displayMsgError = (msg) => {
-    document.getElementById('error-container').innerHTML = `
+  const displayMsgError = (msg, container) => {
+    document.getElementById(container).innerHTML = `
     <div class="error-message" id="error-message">
       <p>${msg}</p>
       <span class="fas fa-times" id="close"></span>
@@ -41,16 +45,49 @@ const Utility = () => {
     });
   };
 
-  const toggleNav = (nav) => {
-    const navTab = document.getElementById(nav);
-    const parentId = navTab.parentElement.parentElement.id;
-    navTab.addEventListener('click', (e) => {
-      if (e.target.classList.contains('nav-link')) {
+  const deleteAddLocTab = () => {
+    document.addEventListener('click', (e) => {
+      if (e.target.classList.contains('delete-button')) {
         const { id } = e.target;
-        const eleTab = id.split('-').slice(0, 2).join('-');
-        hideAndDisplayNav(eleTab, `#${parentId} .tab-content .tab-pane`);
-        hideAndDisplayNav(id, `#${parentId} .nav-tabs .nav-item`);
+        const parent = id.split('-')[1];
+        document.getElementById(parent).remove();
+        const obj1 = logic.parseJSON('add_location');
+        const obj2 = logic.parseJSON('add_forecast');
+        const deleteLocId = obj1[parent];
+        const deleteForecastId = `${deleteLocId.name}-${deleteLocId.country}`;
+        delete obj1[parent];
+        delete obj2[deleteForecastId];
+
+        logic.strigifyJSON('add_location', obj1);
+        logic.strigifyJSON('add_forecast', obj2);
       }
+    });
+  };
+
+  const toggleFirstPageContent = (tab1, tab2) => {
+    document.getElementById(tab1).classList.add('active');
+    document.getElementById(tab2).classList.remove('active');
+  };
+
+  const backButton = () => {
+    const button = document.getElementById('back-button');
+    button.addEventListener('click', () => {
+      toggleFirstPageContent('weather-card', 'details-card');
+      const overviewTabs = document.querySelectorAll('.section-footer .forcast');
+      overviewTabs.forEach((item) => item.classList.remove('active'));
+    });
+  };
+
+  const toggleTab = (array, temp) => {
+    const overviewTabs = document.querySelectorAll('.section-footer .forcast');
+    overviewTabs.forEach((tab) => {
+      tab.addEventListener('click', () => {
+        const { id } = tab;
+        ui.displayForecastDetails(array, id, temp);
+        ui.filteredChartsData(array, id);
+        hideAndDisplayNav(id, '.section-footer .forcast');
+        toggleFirstPageContent('details-card', 'weather-card');
+      });
     });
   };
 
@@ -59,6 +96,11 @@ const Utility = () => {
     allPageLinks.forEach((page) => {
       page.addEventListener('click', () => {
         const { id } = page;
+        if (id === 'home') {
+          toggleFirstPageContent('weather-card', 'details-card');
+          const overviewTabs = document.querySelectorAll('.section-footer .forcast');
+          overviewTabs.forEach((item) => item.classList.remove('active'));
+        }
         const elePage = `${id}-page`;
         hideAndDisplayNav(id, '.navbar-link .list-group-item');
         hideAndDisplayNav(elePage, '.main-content .container');
@@ -66,43 +108,37 @@ const Utility = () => {
     });
   };
 
-  const slideshow = () => {
-    const slideshowContent = '.search-loc-advanced .section-container';
-    let list = [0, 1, 2];
-    const slideshow = document.querySelectorAll('.slideshow-button .slidebtn');
-    Array.from(slideshow).forEach((ele) => {
-      ele.addEventListener('click', () => {
-        let dataSlide = ele.getAttribute('data-slide');
-        dataSlide = parseInt(dataSlide, 10);
-        const getItemIndex = list.map((item) => {
-          let numToAdd;
-          if ((item + dataSlide) >= list.length) {
-            numToAdd = 0 - item;
-          } else if ((item + dataSlide) < 0) {
-            numToAdd = list.length + (item + dataSlide);
-          } else {
-            numToAdd = dataSlide;
-          }
-          return item + numToAdd;
-        });
+  const loadingPage = (display1, display2) => {
+    const loader = document.querySelectorAll('.loader');
+    loader.forEach((item) => { item.style.display = display1; });
+    const mainContent = document.querySelectorAll('.main-section-content');
+    mainContent.forEach((item) => { item.style.display = display2; });
+  };
 
-        const displayItem = getItemIndex[0];
-        const elemID = `section-${displayItem}`;
-        if (displayItem === 0 || displayItem === 1) {
-          const navId = document.querySelector(`#${elemID} .first-nav`).id;
-          const tabId = document.querySelector(`#${elemID} .first-tab`).id;
-          hideAndDisplayNav(tabId, `#${elemID} .tab-content .tab-pane`);
-          hideAndDisplayNav(navId, `#${elemID} .nav-tabs .nav-item`);
-        }
-        hideAndDisplayNav(elemID, slideshowContent);
-        list = getItemIndex;
-      });
+  const changeTempOnToggle = (tempMeasure) => {
+    const sup = document.querySelectorAll('.sup-tag');
+    Array.from(sup).forEach((item) => {
+      if (tempMeasure === 'imperial') {
+        item.innerText = 'f';
+      } else {
+        item.innerText = 'o';
+      }
     });
+  };
+
+  const uncheckTempToggle = () => {
+    const tempBtn = document.getElementById('temp-btn');
+    if (tempBtn.checked) {
+      tempBtn.checked = false;
+      const tempMetric = document.getElementById('slider-round');
+      tempMetric.setAttribute('data-metric', 'C');
+    }
+    document.getElementById('error-home-page').innerHTML = '';
   };
 
   const autoCompleteLocationDetails = (currentFocus, eventVal) => {
     const focusedElement = document.getElementById(`city-${currentFocus}`).innerText;
-    const re = new RegExp(`^${capString(eventVal)}`);
+    const re = new RegExp(`^${logic.capString(eventVal)}`);
     if (focusedElement.match(re)) {
       document.querySelector('.auto-complete-text').innerText = focusedElement.slice(0, 28);
     } else {
@@ -141,6 +177,7 @@ const Utility = () => {
       arguments[0] = 0;
     }
     document.getElementById(`city-${arguments[0]}`).style.backgroundColor = '#fff';
+    // eslint-disable-next-line prefer-destructuring
     currentFocus = arguments[0];
     return currentFocus;
   };
@@ -148,21 +185,27 @@ const Utility = () => {
   const getCityOnInput = () => {
     const locationSearch = document.getElementById('location-search');
     let currentFocus = 0;
+
     locationSearch.addEventListener('keyup', (e) => {
       const eventVal = e.target.value;
       const locList = document.getElementById('loc-list');
-      locationSearch.value = capString(eventVal);
+      locationSearch.value = logic.capString(eventVal);
+
+      function slideInList() {
+        locList.classList.add('slide-effect');
+        document.querySelector('.auto-complete-text').innerText = '';
+      }
 
       if (eventVal.trim() !== '') {
         const re = new RegExp(`^${eventVal}`, 'i');
         const citiesFiltered = cities.filter((item) => re.test(`${item.name}, ${item.country}`))
           .filter((elem, index, self) => self.findIndex(
-            (t) => {
-              return (t.name === elem.name && t.country === elem.country);
-            }) === index)
+            (t) => (t.name === elem.name && t.country === elem.country),
+          ) === index)
           .sort((a, b) => {
             const x = a.name;
             const y = b.name;
+            // eslint-disable-next-line no-nested-ternary
             return x < y ? -1 : x > y ? 1 : 0;
           })
           .slice(0, 5);
@@ -170,7 +213,7 @@ const Utility = () => {
         let cityDisplay = '';
         if (citiesFiltered.length > 0) {
           citiesFiltered.forEach((city, index) => {
-            const locConcat = `${capString(city.name)}, ${city.country}`;
+            const locConcat = `${logic.capString(city.name)}, ${city.country}`;
             cityDisplay += `
             <li class="loc-list-item" id="city-${index}">${highlightSearchList(eventVal, locConcat)}</li>`;
           });
@@ -181,17 +224,19 @@ const Utility = () => {
           currentFocus = fillInputOnKeyCode(currentFocus, e, locationSearch, locList);
           autoCompleteLocationDetails(currentFocus, eventVal);
         } else {
-          document.querySelector('.auto-complete-text').innerText = '';
-          locList.classList.add('slide-effect');
+          slideInList();
         }
       } else {
-        locList.classList.add('slide-effect');
-        document.querySelector('.auto-complete-text').innerText = '';
+        slideInList();
       }
 
       document.getElementById('search-btn').addEventListener('click', () => {
-        locList.classList.add('slide-effect');
-        document.querySelector('.auto-complete-text').innerText = '';
+        slideInList();
+      });
+      document.addEventListener('click', (e) => {
+        if (!e.target.classList.contains('search-list-loc')) {
+          slideInList();
+        }
       });
     });
   };
@@ -205,20 +250,47 @@ const Utility = () => {
         locationSearch.value = event.innerText;
         locList.classList.add('slide-effect');
         document.querySelector('.auto-complete-text').innerText = '';
+        document.getElementById('search-btn').click();
       }
     });
   };
 
+  const getAddLocation = () => {
+    const addLocation = document.getElementById('add-search-btn');
+    const addLocationInput = document.getElementById('add-location-search');
+
+    addLocation.addEventListener('click', () => {
+      const { value } = addLocationInput;
+      if (value.trim() !== '') {
+        const list = document.createElement('li');
+        list.className = 'list inset-border';
+        list.innerHTML = `
+          ${value}
+          <span>45<sup>o</sup></span>`;
+        document.getElementById('add-location-list-item').append(list);
+        addLocationInput.value = '';
+      }
+    });
+  };
+
+
+
   return {
-    capString,
     setCurrentTime,
-    toggleNav,
-    slideshow,
     getCityOnInput,
     populateSearchValue,
     closeErrorMsg,
     displayMsgError,
     toggleNavPages,
+    getAddLocation,
+    toggleTab,
+    toggleFirstPageContent,
+    backButton,
+    loadingPage,
+    changeTempOnToggle,
+    uncheckTempToggle,
+    deleteAddLocTab,
+    updateAllDataAtInterval,
   };
 };
 
