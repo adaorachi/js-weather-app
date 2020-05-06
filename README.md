@@ -105,4 +105,4 @@ Distributed under the MIT License. See `LICENSE` for more information.
 * [Microverse](https://www.microverse.org/)
 * [OpenWeatherMap](https://openweathermap.org/) - Weather Forecast API
 * [IPFind API](https://app.ipfind.org/) - IP/Location Finder API
-* [IPFind API](https://newsapi.org/) - Weather News API
+* [News API](https://newsapi.org/) - Weather News API
