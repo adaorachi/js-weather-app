@@ -231,7 +231,7 @@ const API = () => {
         const data = logic.parseJSON('location');
         ui.setCurrentTimeAndDate(data);
 
-        utility.updateAllDataAtInterval();
+        utility.updateAllDataAtInterval(INPUTVALUE);
       }
 
       fetchNewsData();

@@ -276,7 +276,7 @@ const Utility = () => {
     });
   };
 
-  const updateAllDataAtInterval = () => {
+  const updateAllDataAtInterval = (inputVal) => {
     const countryCityName = [];
     const countryCityTime = [];
     const dataLoc = logic.parseJSON('add_location');
@@ -297,7 +297,7 @@ const Utility = () => {
     }, 60000);
 
     setInterval(() => {
-      const value = INPUTVALUE;
+      const value = inputVal;
       processAPICallForMainLoc(value, 'metric');
       utility.toggleFirstPageContent('weather-card', 'details-card');
       utility.uncheckTempToggle();
