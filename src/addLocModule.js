@@ -20,7 +20,7 @@ const mod = (() => {
     return Object.keys(obj);
   };
 
-  const computeComment = (weatherTemp) => {
+  const computeComment = (weatherTemp, isNight = true) => {
     const weather = weatherTemp[0];
     const mist = ['Mist', 'Smoke', 'Haze', 'Fog'];
     const rain = ['Thunderstorm', 'Drizzle', 'Rain'];
@@ -39,7 +39,11 @@ const mod = (() => {
     } else if (weather === 'Clear') {
       const rand = Math.floor(Math.random() * 2);
       const commentArr = ['Expect sunny skies', 'The skies will be mostly Clear'];
-      comment = `${commentArr[rand]}. ${rainSomeTime}`;
+      if (isNight) {
+        comment = `The skies will be mostly Clear. ${rainSomeTime}`;
+      } else {
+        comment = `${commentArr[rand]}. ${rainSomeTime}`;
+      }
     } else if (mist.includes(weather)) {
       comment = `The skies will be mostly Foggy. ${rainSomeTime}`;
     } else if (rain.includes(weather)) {

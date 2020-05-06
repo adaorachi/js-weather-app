@@ -179,7 +179,7 @@ const UI = () => {
     const dayWeather = mod.getMain(allDay)[1];
     const nightWeather = mod.getMain(allNight)[1];
 
-    const dayComment = `${mod.computeComment(mod.getMaxWeather(dayWeather))} The high will be ${maxTempDay}${mod.tempComment(maxTempDay)}`;
+    const dayComment = `${mod.computeComment(mod.getMaxWeather(dayWeather), false)} The high will be ${maxTempDay}${mod.tempComment(maxTempDay)}`;
     const nightComment = `${mod.computeComment(mod.getMaxWeather(nightWeather))} The low will be ${minTempNight}${mod.tempComment(minTempNight)}`;
     return [dayComment, nightComment];
   };
@@ -257,7 +257,6 @@ const UI = () => {
       listContent.innerHTML = addLocation;
     }
   };
-
 
   return {
     setCurrentTimeAndDate,
