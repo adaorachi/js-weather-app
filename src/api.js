@@ -192,29 +192,29 @@ const API = () => {
     });
   };
 
-  const fetCurrentLocData = () => {
-    const currentLocation = fetch('https://ipfind.co/?ip=197.210.52.91&auth=e1301a4b-c4e3-4e99-95d5-e5750e1a1fed', { mode: 'cors' });
-    currentLocation.then((response) => response.json()).then((response) => {
-      logic.strigifyJSON('location', response);
-      const { city } = response;
+  const fetCurrentLocData = async () => {
+    try {
+      const currentLocation = await fetch('https://ipfind.co/?ip=197.210.52.91&auth=e1301a4b-c4e3-4e99-95d5-e5750e1a1fed', { mode: 'cors' });
+      const location = await currentLocation.json();
+      logic.strigifyJSON('location', location);
+      const { city } = location;
       INPUTVALUE = city;
       processAPICallForMainLoc(`${city}`, 'metric');
-      ui.setCurrentTimeAndDate(response);
-    }).catch((err) => {
+      ui.setCurrentTimeAndDate(location);
+    } catch (err) {
       utility.displayMsgError(err);
-    });
+    }
   };
 
-  const fetchNewsData = () => {
+  const fetchNewsData = async () => {
     const currentDate = new Date();
-    const currentNews = fetch(`https://newsapi.org/v2/everything?q=weather&to=${currentDate}&apiKey=c4d03151880c4a5483bfdd5c83508124`, { mode: 'cors' });
-    // const currentNews = fetch('./src/data3.json');
-    currentNews.then((response) => response.json()).then((response) => {
-      const curNews = response;
+    try {
+      const currentNews = await fetch(`https://newsapi.org/v2/everything?q=weather&to=${currentDate}&apiKey=c4d03151880c4a5483bfdd5c83508124`, { mode: 'cors' });
+      const curNews = await currentNews.json();
       ui.displayWeatherNews(curNews);
-    }).catch((err) => {
+    } catch (err) {
       utility.displayMsgError(err);
-    });
+    }
   };
 
   const getCurrentLocationOnLoad = () => {

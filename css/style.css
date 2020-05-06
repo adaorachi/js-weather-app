@@ -556,8 +556,8 @@ b {
 
 .wrapper .main-container .search-loc-details .main-section-content {
   border-radius: 10px;
-  -webkit-box-shadow: inset 0 0 5px #272727;
-          box-shadow: inset 0 0 5px #272727;
+  -webkit-box-shadow: inset 0 0 10px #111111;
+          box-shadow: inset 0 0 10px #111111;
 }
 
 .wrapper .main-container .search-loc-details .weather-icon {
