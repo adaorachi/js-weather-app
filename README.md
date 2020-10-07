@@ -1,6 +1,6 @@
 # WEATHERSNAP - WEATHER FORECAST APP
 
-This project is a Weather App built with JavaScript. It implements the functionality of using a weather API (openweathermap.org), fetching data from its server and displaying them creatively on the project site. It also uses basically Factory functions and Module Patterns in creating the functionalities and logic.
+This project is a Weather App built with JavaScript. It implements the functionality of using a weather API (openweathermap.org), fetching data from its server, and displaying them creatively on the project site. It also uses Factory functions and Module Patterns in creating functionalities and logic.
 
 <p>Below are the HomePage Screenshots</p>
 
@@ -30,7 +30,7 @@ This project is a Weather web application. In this project, the following featur
 - A user can toggle the data to display in Fahrenheit or Celsius.
 - The look of the page is changed based on the data from a searched location.
 - A user can toggle tabs to see a 5-day forecast of the searched location. 
-- The project also has the feature for users adding, saving and deleting three locations for live updates on the city's weather info.
+- The project also has a feature for users adding, saving, and deleting three locations for live updates on the city's weather info.
 - The project also has an additional feature where a user can also read up weather news highlights for the day.
 
 
@@ -91,6 +91,26 @@ Start the server and use the app
 ```Shell
 your@pc:~$ npm run server
 ```
+
+## Run tests
+
+Run all tests
+
+```Shell
+your@pc:~$ npm test
+```
+
+Run specific tests
+
+```Shell
+your@pc:~$ npm test src/tests/<testfile>
+```
+
+<!-- Future features -->
+
+## Future Features
+
+- Work on front-end responsiveness.
 
 <!-- LICENSE -->
 ## License
